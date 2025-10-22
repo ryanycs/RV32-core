@@ -31,10 +31,10 @@ always_comb begin
             alu_result = a >> b[4:0];
 
         ALU_SRA:
-            alu_result = a >>> b[4:0];
+            alu_result = $signed(a) >>> b[4:0];
 
         ALU_SLT:
-            alu_result = $signed(b) < $signed(b) ? 32'd1 : 32'd0;
+            alu_result = $signed(a) < $signed(b) ? 32'd1 : 32'd0;
 
         ALU_SLTU:
             alu_result = a < b ? 32'd1 : 32'd0;
