@@ -7,7 +7,7 @@
 `include "forwarding_unit.sv"
 `include "hazard_unit.sv"
 `include "imm_gen.sv"
-`include "load_store_unit.sv"
+`include "lsu.sv"
 // `include "branch_predictor.sv" /* TODO */
 // `include "fpu.sv"              /* TODO */
 // `include "mul.sv"              /* TODO */

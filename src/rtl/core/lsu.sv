@@ -23,11 +23,11 @@ always_comb begin
 
     case (lsu_ctrl)
         LSU_LB: begin
-            mem_rd_data = { {24{mem_rd_data[7]}}, mem_rd_data[7:0] };
+            mem_rd_data = { { 24{mem_rd_data[7]}}, mem_rd_data[7:0] };
         end
 
         LSU_LH: begin
-            mem_rd_data = { {16{mem_rd_data[15]}}, mem_rd_data[15:0] };
+            mem_rd_data = { { 16{mem_rd_data[15]}}, mem_rd_data[15:0] };
         end
 
         LSU_LW: begin
