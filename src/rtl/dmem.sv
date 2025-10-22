@@ -7,16 +7,22 @@ module dmem(
     output logic [31:0] rd_data    // Data output
 );
 
-logic [31:0] mem [0:DMEM_SIZE/4-1];
+logic [31:0] mem [511:0][31:0];
+
+logic [8:0] row_addr;
+logic [4:0] col_addr;
+
+assign row_addr = (addr >> 2) / 32;
+assign col_addr = (addr >> 2) % 32;
 
 always_comb begin
-    rd_data = mem[addr >> 2];
+    rd_data = mem[row_addr][col_addr];
 end
 
-always_ff @(posedge clk) begin
+always @(posedge clk) begin
     if (wr_en) begin
-        mem[addr >> 2] <= wr_data & bit_wr_en
-                          | mem[addr >> 2] & ~bit_wr_en;
+        mem[row_addr][col_addr] <= wr_data & bit_wr_en
+                                   | mem[row_addr][col_addr] & ~bit_wr_en;
     end
 end
 

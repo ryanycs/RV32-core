@@ -5,10 +5,16 @@ module imem(
     output logic [31:0] rd_data  // Data output
 );
 
-logic [31:0] mem [0:IMEM_SIZE/4-1];
+logic [31:0] mem [511:0][31:0];
+
+logic [8:0] row_addr;
+logic [4:0] col_addr;
+
+assign row_addr = (addr >> 2) / 32;
+assign col_addr = (addr >> 2) % 32;
 
 always_comb begin
-    rd_data = mem[addr >> 2];
+    rd_data = mem[row_addr][col_addr];
 end
 
 endmodule
