@@ -339,6 +339,31 @@ always_comb begin
         end
 
         `ifdef M_EXT
+        MUL: begin
+        end
+
+        MULH: begin
+        end
+
+        MULHSU: begin
+        end
+
+        MULHU: begin
+        end
+        `endif
+
+        `ifdef F_EXT
+        FADD: begin
+        end
+
+        FSUB: begin
+        end
+
+        FLW: begin
+        end
+
+        FSW: begin
+        end
         `endif
 
         `ifdef Zicsr_EXT
@@ -346,7 +371,6 @@ always_comb begin
             reg_wr_en   = 1'b1;
             result_src  = RESULT_SRC_CSR;
         end
-
 
         default: begin
             csr_instret_inc = 1'b0;
