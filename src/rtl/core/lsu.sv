@@ -15,7 +15,35 @@ module lsu(
 
 assign mem_wr_en   = wr_en;
 assign mem_addr    = addr;
-assign mem_wr_data = wr_data;
+
+always_comb begin
+    case (lsu_ctrl)
+        LSU_SB: begin
+            case (addr[1:0])
+                2'b00:
+                    mem_wr_data = {24'h000000, wr_data[7:0]};
+                2'b01:
+                    mem_wr_data = {16'h0000, wr_data[7:0], 8'h00};
+                2'b10:
+                    mem_wr_data = {8'h00, wr_data[7:0], 16'h0000};
+                2'b11:
+                    mem_wr_data = {wr_data[7:0], 24'h000000};
+            endcase
+        end
+
+        LSU_SH: begin
+            if (addr[1]) begin
+                mem_wr_data = {wr_data[15:0], 16'h0000};
+            end else begin
+                mem_wr_data = {16'h0000, wr_data[15:0]};
+            end
+        end
+
+        default: begin
+            mem_wr_data = wr_data;
+        end
+    endcase
+end
 
 always_comb begin
     mem_rd_data   = rd_data;
@@ -43,11 +71,20 @@ always_comb begin
         end
 
         LSU_SB: begin
-            mem_bit_wr_en = 32'h000000FF;
+            case (addr[1:0])
+                2'b00:
+                    mem_bit_wr_en = 32'h000000FF;
+                2'b01:
+                    mem_bit_wr_en = 32'h0000FF00;
+                2'b10:
+                    mem_bit_wr_en = 32'h00FF0000;
+                2'b11:
+                    mem_bit_wr_en = 32'hFF000000;
+            endcase
         end
 
         LSU_SH: begin
-            mem_bit_wr_en = 32'h0000FFFF;
+            mem_bit_wr_en = addr[1] ? 32'hFFFF0000 : 32'h0000FFFF;
         end
 
         LSU_SW: begin
