@@ -161,7 +161,6 @@ resultSrc_e  result_src_mem;
 
 `ifdef Zicsr_EXT
 // CSR signals
-logic        csr_instret_inc_mem;
 logic [31:0] csr_rd_data_mem;
 `endif
 
@@ -184,7 +183,6 @@ resultSrc_e  result_src_wb;
 
 `ifdef Zicsr_EXT
 // CSR signals
-logic        csr_instret_inc_wb;
 logic [31:0] csr_rd_data_wb;
 `endif
 
@@ -455,7 +453,7 @@ hazard_unit u_hazard(
 csr u_csr(
     .clk             (clk),
     .rst             (rst),
-    .csr_instret_inc (csr_instret_inc_wb),
+    .csr_instret_inc (csr_instret_inc_ex),
     .csr_addr        (csr_addr_ex),
     .csr_rd_data     (csr_rd_data_ex)
 );
@@ -485,8 +483,6 @@ ex_mem u_ex_mem(
 
     `ifdef Zicsr_EXT
     ,
-    .csr_instret_inc_in  (csr_instret_inc_ex),
-    .csr_instret_inc_out (csr_instret_inc_mem),
     .csr_rd_data_in      (csr_rd_data_ex),
     .csr_rd_data_out     (csr_rd_data_mem)
     `endif
@@ -536,8 +532,6 @@ mem_wb u_mem_wb(
 
     `ifdef Zicsr_EXT
     ,
-    .csr_instret_inc_in  (csr_instret_inc_mem),
-    .csr_instret_inc_out (csr_instret_inc_wb),
     .csr_rd_data_in      (csr_rd_data_mem),
     .csr_rd_data_out     (csr_rd_data_wb)
     `endif

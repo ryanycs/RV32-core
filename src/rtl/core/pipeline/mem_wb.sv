@@ -18,9 +18,7 @@ module mem_wb(
 
     `ifdef Zicsr_EXT
     ,
-    input  logic         csr_instret_inc_in,
     input  logic [31:0]  csr_rd_data_in,
-    output logic         csr_instret_inc_out,
     output logic [31:0]  csr_rd_data_out
     `endif
 
@@ -52,10 +50,8 @@ end
 `ifdef Zicsr_EXT
 always_ff @(posedge clk or posedge rst) begin
     if (rst) begin
-        csr_instret_inc_out <= 1'b0;
         csr_rd_data_out     <= 32'd0;
     end else begin
-        csr_instret_inc_out <= csr_instret_inc_in;
         csr_rd_data_out     <= csr_rd_data_in;
     end
 end
